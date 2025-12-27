@@ -703,4 +703,69 @@ export const workflowApi = {
       method: 'POST',
       body: config,
     }),
+
+  // ==================== D5集成 API ====================
+
+  // 获取D5配置
+  getD5Config: () =>
+    request<{
+      base_url: string;
+      enabled: boolean;
+      api_key_masked: string;
+      pull_timeout_hours: number;
+    }>('/workflow/d5/config'),
+
+  // 更新D5配置
+  updateD5Config: (config: {
+    base_url: string;
+    api_key: string;
+    enabled: boolean;
+  }) =>
+    request<{ status: string; message: string }>('/workflow/d5/config', {
+      method: 'POST',
+      body: config,
+    }),
+
+  // 测试D5连接
+  testD5Connection: () =>
+    request<{ success: boolean; message: string }>('/workflow/d5/test', {
+      method: 'POST',
+    }),
+
+  // 获取日志统计
+  getLogsStats: () =>
+    request<{
+      total: number;
+      pending: number;
+      pulled: number;
+      archived: number;
+    }>('/workflow/d5/logs/stats'),
+
+  // 从D5搜索记忆
+  searchD5Memory: (query: string, limit?: number, minScore?: number) =>
+    request<{ memories: Array<{ content: string; score: number; type: string }> }>(
+      '/workflow/d5/memory/search',
+      {
+        method: 'POST',
+        body: { query, limit: limit || 5, min_score: minScore || 0.7 },
+      }
+    ),
+
+  // ==================== 检查点管理 API ====================
+
+  // 列出检查点
+  listCheckpoints: (sessionId: string) =>
+    request<Array<{
+      id: string;
+      name: string;
+      created_at: string;
+      messages_count: number;
+    }>>(`/workflow/sessions/${sessionId}/checkpoints`),
+
+  // 恢复检查点
+  restoreCheckpoint: (sessionId: string, checkpointId: string) =>
+    request<{ status: string; message: string }>(
+      `/workflow/sessions/${sessionId}/checkpoint/${checkpointId}/restore`,
+      { method: 'POST' }
+    ),
 };
