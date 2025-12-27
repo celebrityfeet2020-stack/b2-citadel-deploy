@@ -1,0 +1,192 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* B2 Citadel - 玻璃拟态/全息风格基础样式 */
+
+:root {
+  --b2-bg-primary: #0a0a0f;
+  --b2-bg-secondary: #12121a;
+  --b2-bg-tertiary: #1a1a24;
+  --b2-accent-cyan: #00d4ff;
+  --b2-accent-purple: #a855f7;
+  --b2-accent-pink: #ec4899;
+  --b2-text-primary: #f0f0f5;
+  --b2-text-secondary: #a0a0b0;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+  background-color: var(--b2-bg-primary);
+  color: var(--b2-text-primary);
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* 玻璃拟态卡片 */
+@layer components {
+  .glass-card {
+    @apply bg-b2-glass-light backdrop-blur-glass rounded-xl border border-white/10;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  }
+
+  .glass-card-hover {
+    @apply glass-card transition-all duration-300;
+  }
+
+  .glass-card-hover:hover {
+    @apply bg-b2-glass-medium border-white/20;
+    box-shadow: 0 8px 32px 0 rgba(0, 212, 255, 0.1);
+  }
+
+  /* 全息边框 */
+  .holographic-border {
+    position: relative;
+  }
+
+  .holographic-border::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(135deg, #00d4ff 0%, #a855f7 50%, #ec4899 100%);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+
+  /* 发光按钮 */
+  .glow-button {
+    @apply px-4 py-2 rounded-lg font-medium transition-all duration-300;
+    @apply bg-gradient-to-r from-b2-accent-cyan/20 to-b2-accent-purple/20;
+    @apply border border-b2-accent-cyan/30;
+    @apply text-b2-accent-cyan;
+  }
+
+  .glow-button:hover {
+    @apply from-b2-accent-cyan/30 to-b2-accent-purple/30;
+    @apply border-b2-accent-cyan/50;
+    box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+  }
+
+  .glow-button:active {
+    @apply scale-95;
+  }
+
+  /* 输入框样式 */
+  .glass-input {
+    @apply w-full px-4 py-3 rounded-lg;
+    @apply bg-b2-glass-light backdrop-blur-glass;
+    @apply border border-white/10;
+    @apply text-b2-text-primary placeholder-b2-text-muted;
+    @apply focus:outline-none focus:border-b2-accent-cyan/50;
+    @apply transition-all duration-300;
+  }
+
+  .glass-input:focus {
+    box-shadow: 0 0 0 2px rgba(0, 212, 255, 0.1);
+  }
+
+  /* 状态指示器 */
+  .status-indicator {
+    @apply w-2 h-2 rounded-full;
+  }
+
+  .status-indicator.online {
+    @apply bg-b2-accent-green;
+    box-shadow: 0 0 8px rgba(16, 185, 129, 0.5);
+  }
+
+  .status-indicator.warning {
+    @apply bg-b2-accent-amber;
+    box-shadow: 0 0 8px rgba(245, 158, 11, 0.5);
+  }
+
+  .status-indicator.error {
+    @apply bg-b2-accent-pink;
+    box-shadow: 0 0 8px rgba(236, 72, 153, 0.5);
+  }
+
+  /* 清醒度进度条 */
+  .clarity-bar {
+    @apply h-2 rounded-full overflow-hidden;
+    @apply bg-b2-glass-light;
+  }
+
+  .clarity-bar-fill {
+    @apply h-full rounded-full transition-all duration-500;
+  }
+
+  .clarity-bar-fill.high {
+    @apply bg-gradient-to-r from-b2-accent-green to-b2-accent-cyan;
+  }
+
+  .clarity-bar-fill.medium {
+    @apply bg-gradient-to-r from-b2-accent-amber to-b2-accent-cyan;
+  }
+
+  .clarity-bar-fill.low {
+    @apply bg-gradient-to-r from-b2-accent-pink to-b2-accent-amber;
+  }
+}
+
+/* 滚动条样式 */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--b2-bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* 选中文本样式 */
+::selection {
+  background: rgba(0, 212, 255, 0.3);
+  color: #fff;
+}
+
+/* 动画 */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.shimmer {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.1) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 2s infinite;
+}
