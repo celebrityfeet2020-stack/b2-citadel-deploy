@@ -118,7 +118,7 @@ const AIConfigForm: React.FC<AIConfigFormProps> = ({
           <GlassInput
             type="text"
             value={config.baseUrl}
-            onChange={(e) => setConfig({ ...config, baseUrl: e.target.value })}
+            onChange={(value) => setConfig({ ...config, baseUrl: value })}
             placeholder={config.providerType === 'manus' ? 'https://api.manus.ai/v1' : 'https://generativelanguage.googleapis.com/v1beta'}
           />
         </div>
@@ -128,7 +128,7 @@ const AIConfigForm: React.FC<AIConfigFormProps> = ({
           <GlassInput
             type="password"
             value={config.apiKey}
-            onChange={(e) => setConfig({ ...config, apiKey: e.target.value })}
+            onChange={(value) => setConfig({ ...config, apiKey: value })}
             placeholder={config.providerType === 'manus' ? 'sk-...' : 'AIza...'}
           />
         </div>
@@ -138,7 +138,7 @@ const AIConfigForm: React.FC<AIConfigFormProps> = ({
           <GlassInput
             type="text"
             value={config.model}
-            onChange={(e) => setConfig({ ...config, model: e.target.value })}
+            onChange={(value) => setConfig({ ...config, model: value })}
             placeholder={config.providerType === 'manus' ? 'manus-1.6 / manus-1.6-lite / manus-1.6-max' : 'gemini-3-flash / gemini-3-pro'}
           />
         </div>
@@ -148,16 +148,16 @@ const AIConfigForm: React.FC<AIConfigFormProps> = ({
             <label className="block text-sm text-gray-300 mb-1">Max Tokens</label>
             <GlassInput
               type="text"
-              value={config.maxTokens}
-              onChange={(e) => setConfig({ ...config, maxTokens: parseInt(e.target.value) || 0 })}
+              value={String(config.maxTokens)}
+              onChange={(value) => setConfig({ ...config, maxTokens: parseInt(value) || 0 })}
             />
           </div>
           <div>
             <label className="block text-sm text-gray-300 mb-1">Temperature</label>
             <GlassInput
               type="text"
-              value={config.temperature}
-              onChange={(e) => setConfig({ ...config, temperature: parseFloat(e.target.value) || 0 })}
+              value={String(config.temperature)}
+              onChange={(value) => setConfig({ ...config, temperature: parseFloat(value) || 0 })}
             />
           </div>
         </div>
@@ -223,8 +223,8 @@ const ContextConfigFormV2: React.FC<ContextConfigFormV2Props> = ({
           <label className="block text-sm text-gray-300 mb-1">总Token预算</label>
           <GlassInput
             type="text"
-            value={config.totalBudget}
-            onChange={(e) => setConfig({ ...config, totalBudget: parseInt(e.target.value) || 0 })}
+            value={String(config.totalBudget)}
+            onChange={(value) => setConfig({ ...config, totalBudget: parseInt(value) || 0 })}
             placeholder="115000"
           />
           <p className="text-xs text-gray-500 mt-1">
@@ -324,10 +324,10 @@ const ContextConfigFormV2: React.FC<ContextConfigFormV2Props> = ({
                 <label className="block text-xs text-gray-400 mb-1">向量检索 Top-K</label>
                 <GlassInput
                   type="text"
-                  value={config.vectorSearch.topK}
-                  onChange={(e) => setConfig({
+                  value={String(config.vectorSearch.topK)}
+                  onChange={(value) => setConfig({
                     ...config,
-                    vectorSearch: { ...config.vectorSearch, topK: parseInt(e.target.value) || 10 }
+                    vectorSearch: { ...config.vectorSearch, topK: parseInt(value) || 10 }
                   })}
                 />
               </div>
@@ -335,10 +335,10 @@ const ContextConfigFormV2: React.FC<ContextConfigFormV2Props> = ({
                 <label className="block text-xs text-gray-400 mb-1">向量检索阈值</label>
                 <GlassInput
                   type="text"
-                  value={config.vectorSearch.threshold}
-                  onChange={(e) => setConfig({
+                  value={String(config.vectorSearch.threshold)}
+                  onChange={(value) => setConfig({
                     ...config,
-                    vectorSearch: { ...config.vectorSearch, threshold: parseFloat(e.target.value) || 0.5 }
+                    vectorSearch: { ...config.vectorSearch, threshold: parseFloat(value) || 0.5 }
                   })}
                 />
               </div>
@@ -348,10 +348,10 @@ const ContextConfigFormV2: React.FC<ContextConfigFormV2Props> = ({
                 <label className="block text-xs text-gray-400 mb-1">D5检索数量</label>
                 <GlassInput
                   type="text"
-                  value={config.d5Recall.limit}
-                  onChange={(e) => setConfig({
+                  value={String(config.d5Recall.limit)}
+                  onChange={(value) => setConfig({
                     ...config,
-                    d5Recall: { ...config.d5Recall, limit: parseInt(e.target.value) || 5 }
+                    d5Recall: { ...config.d5Recall, limit: parseInt(value) || 5 }
                   })}
                 />
               </div>
@@ -359,10 +359,10 @@ const ContextConfigFormV2: React.FC<ContextConfigFormV2Props> = ({
                 <label className="block text-xs text-gray-400 mb-1">D5检索阈值</label>
                 <GlassInput
                   type="text"
-                  value={config.d5Recall.threshold}
-                  onChange={(e) => setConfig({
+                  value={String(config.d5Recall.threshold)}
+                  onChange={(value) => setConfig({
                     ...config,
-                    d5Recall: { ...config.d5Recall, threshold: parseFloat(e.target.value) || 0.7 }
+                    d5Recall: { ...config.d5Recall, threshold: parseFloat(value) || 0.7 }
                   })}
                 />
               </div>
@@ -375,7 +375,7 @@ const ContextConfigFormV2: React.FC<ContextConfigFormV2Props> = ({
 };
 
 // 主组件
-export default function SettingsPanel() {
+export function SettingsPanel() {
   const [activeTab, setActiveTab] = useState<SettingsTab>('api-key');
   
   // System Prompt状态
@@ -587,7 +587,7 @@ export default function SettingsPanel() {
                   <GlassInput
                     type="text"
                     value={commanderApiUrl}
-                    onChange={(e) => setCommanderApiUrl(e.target.value)}
+                    onChange={(value) => setCommanderApiUrl(value)}
                     className="flex-1"
                   />
                   <GlassButton size="sm" onClick={() => navigator.clipboard.writeText(commanderApiUrl)}>
@@ -602,7 +602,7 @@ export default function SettingsPanel() {
                   <GlassInput
                     type="text"
                     value={commanderApiKey}
-                    onChange={(e) => setCommanderApiKey(e.target.value)}
+                    onChange={(value) => setCommanderApiKey(value)}
                     className="flex-1"
                   />
                   <GlassButton size="sm" onClick={() => navigator.clipboard.writeText(commanderApiKey)}>
